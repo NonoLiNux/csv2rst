@@ -32,15 +32,12 @@ finally:
 
 ############ analyse des colonnes ##############
 nb_colonnes = len(lignes[1])
-#print nb_colonnes
 
 taille_colonne = []
 for i in range(nb_colonnes):
     colonne = []
     for ligne in lignes:
         colonne.append ( ligne[i] )
-    #print colonne
-    #print len(max(colonne, key=len))
     taille_colonne.append(len(max(colonne, key=len)))
 
 
@@ -50,8 +47,6 @@ motif_interligne ="+"
 for i in taille_colonne:
     motif_interligne += "-" * (i+2)
     motif_interligne+= "+"
-#print motif_interligne
-
 
 sortie = open(sys.argv[2], "w") 
 #TODO : si pas de deuxième argument, donner un nom par défaut
@@ -62,7 +57,6 @@ for ligne in lignes:
         sortie.write( " "+ ligne[i] +" "*(taille_colonne[i]-len(ligne[i])) + " |")
         if (i == nb_colonnes - 1) :
             sortie.write("\n")
-
-
 sortie.write(motif_interligne)
 sortie.close()
+
