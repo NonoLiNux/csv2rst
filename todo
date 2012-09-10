@@ -3,8 +3,6 @@
 * centrer le texte dans les colonnes
 	* à l'aide d'un paramètre optionnel ?
 * gestion des erreurs :
-	* pas de premier argument -> exit
-	* pas de second argument -> mettre en place un nom par défaut et un message
 	* ouverture du fichier (fichier inexistant)
 	* ouverture du fichier (ce n'est pas un csv)
 	* écriture du fichier (pas de droit d'écriture sur le dossier parent)
