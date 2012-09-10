@@ -24,7 +24,11 @@ def main():
 	except IndexError:
 		return "Utilisation : python csv2rst.py fichier.csv fichier.txt"
 
-	fichier = open(nom_fichier, "rb")
+	try :	
+		fichier = open(nom_fichier, "rb")
+	except IOError:
+		return "erreur : le fichier n'existe pas."
+	
 	lignes = []
 
 	try:
@@ -47,7 +51,7 @@ def main():
 			colonne.append ( ligne[i] )
 		    taille_colonne.append(len(max(colonne, key=len)))
 	except:
-		return "le fichier n'est pas conforme, impossible de le traiter !"
+		return "erreur : le fichier n'est pas conforme, impossible de le traiter !"
 
 
 	############ écriture du fichier de sortie ##############
@@ -61,7 +65,11 @@ def main():
 	except IndexError:
 		nom_fichier = "sortie.txt"
 
-	sortie = open(nom_fichier, "w")
+	try:
+		sortie = open(nom_fichier, "w")	
+	except IOError:
+		return "erreur : impossible de créer le fichier de sortie. Vérifier les droits d'accès ?."	
+
 
 	for ligne in lignes:
 	    sortie.write( motif_interligne+"\n"+"|")

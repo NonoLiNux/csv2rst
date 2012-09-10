@@ -3,8 +3,6 @@
 * retour à la ligne lorsque le texte d'une cellulle est vraiment trop grand
 
 * gestion des erreurs :
-	* ouverture du fichier (fichier inexistant)
-	* ouverture du fichier (ce n'est pas un csv)
-	* écriture du fichier (pas de droit d'écriture sur le dossier parent)
+	* ouverture du fichier (ce n'est pas un csv) -> ??
 
 	
