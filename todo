@@ -1,12 +1,10 @@
 * gestion des autres caractères de séparation (; et | au minimum)
-	* sous la forme d'un paramètre à la lecture du csv
 * centrer le texte dans les colonnes
-	* à l'aide d'un paramètre optionnel ?
+* retour à la ligne lorsque le texte d'une cellulle est vraiment trop grand
+
 * gestion des erreurs :
 	* ouverture du fichier (fichier inexistant)
 	* ouverture du fichier (ce n'est pas un csv)
 	* écriture du fichier (pas de droit d'écriture sur le dossier parent)
-* autres :
-	* et s'il manque des colonnes sur une ligne ?
-	* saut de ligne dans le texte des colonnes ?
-	* retour à la ligne lorsque le texte d'une cellulle est vraiment trop grand ?
+
+	

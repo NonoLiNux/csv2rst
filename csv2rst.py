@@ -40,12 +40,14 @@ def main():
 	nb_colonnes = len(lignes[1])
 
 	taille_colonne = []
-	for i in range(nb_colonnes):
-	    colonne = []
-	    for ligne in lignes:
-		colonne.append ( ligne[i] )
-	    taille_colonne.append(len(max(colonne, key=len)))
-
+	try :
+		for i in range(nb_colonnes):
+		    colonne = []
+		    for ligne in lignes:
+			colonne.append ( ligne[i] )
+		    taille_colonne.append(len(max(colonne, key=len)))
+	except:
+		return "le fichier n'est pas conforme, impossible de le traiter !"
 
 
 	############ écriture du fichier de sortie ##############
