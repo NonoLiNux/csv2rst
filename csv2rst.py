@@ -24,11 +24,11 @@ def main():
 	except IndexError:
 		return "Utilisation : python csv2rst.py fichier.csv fichier.txt"
 
-	try :	
+	try :
 		fichier = open(nom_fichier, "rb")
 	except IOError:
 		return "erreur : le fichier n'existe pas."
-	
+
 	lignes = []
 
 	try:
@@ -66,9 +66,9 @@ def main():
 		nom_fichier = "sortie.txt"
 
 	try:
-		sortie = open(nom_fichier, "w")	
+		sortie = open(nom_fichier, "w")
 	except IOError:
-		return "erreur : impossible de créer le fichier de sortie. Vérifier les droits d'accès ?."	
+		return "erreur : impossible de créer le fichier de sortie. Vérifier les droits d'accès ?."
 
 
 	for ligne in lignes:
