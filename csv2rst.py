@@ -18,68 +18,70 @@ import csv
 
 
 def main():
-	############ lecture du fichier source ##############
-	try:
-		nom_fichier = sys.argv[1]
-	except IndexError:
-		return "Utilisation : python csv2rst.py fichier.csv fichier.txt"
+    ############ lecture du fichier source ##############
+    try:
+        nom_fichier = sys.argv[1]
+    except IndexError:
+        return "Utilisation : python csv2rst.py fichier.csv fichier.txt"
 
-	try :
-		fichier = open(nom_fichier, "rb")
-	except IOError:
-		return "erreur : le fichier n'existe pas."
+    try :
+        fichier = open(nom_fichier, "r")
+    except IOError:
+        return "erreur : le fichier n'existe pas."
 
-	lignes = []
+    lignes = []
 
-	try:
-	    reader = csv.reader(fichier)
-	    for row in reader:
-		lignes.append(row)
-	finally:
-	    fichier.close()
-
-
-
-	############ analyse des colonnes ##############
-	nb_colonnes = len(lignes[1])
-
-	taille_colonne = []
-	try :
-		for i in range(nb_colonnes):
-		    colonne = []
-		    for ligne in lignes:
-			colonne.append ( ligne[i] )
-		    taille_colonne.append(len(max(colonne, key=len)))
-	except:
-		return "erreur : le fichier n'est pas conforme, impossible de le traiter !"
+    try:
+        reader = csv.reader(fichier)
+        for row in reader:
+            lignes.append(row)
+    finally:
+        fichier.close()
 
 
-	############ écriture du fichier de sortie ##############
-	motif_interligne ="+"
-	for i in taille_colonne:
-	    motif_interligne += "-" * (i+2)
-	    motif_interligne+= "+"
 
-	try:
-		nom_fichier = sys.argv[2]
-	except IndexError:
-		nom_fichier = "sortie.txt"
+    ############ analyse des colonnes ##############
+    nb_colonnes = len(lignes[1])
 
-	try:
-		sortie = open(nom_fichier, "w")
-	except IOError:
-		return "erreur : impossible de créer le fichier de sortie. Vérifier les droits d'accès ?."
+    taille_colonne = []
+    try :
+        for i in range(nb_colonnes):
+            colonne = []
+            for ligne in lignes:
+                colonne.append ( ligne[i] )
+
+            taille_colonne.append(len(max(colonne, key=len)))
+    except:
+        return "erreur : le fichier n'est pas conforme, impossible de le traiter !"
 
 
-	for ligne in lignes:
-	    sortie.write( motif_interligne+"\n"+"|")
-	    for i in range(nb_colonnes):
-		sortie.write( " "+ ligne[i] +" "*(taille_colonne[i]-len(ligne[i])) + " |")
-		if (i == nb_colonnes - 1) :
-		    sortie.write("\n")
-	sortie.write(motif_interligne)
-	sortie.close()
-	return "Le fichier " + nom_fichier + " a été généré."
+    ############ écriture du fichier de sortie ##############
+    motif_interligne ="+"
+    for i in taille_colonne:
+        motif_interligne += "-" * (i+2)
+        motif_interligne+= "+"
+
+    try:
+        nom_fichier = sys.argv[2]
+    except IndexError:
+        nom_fichier = "sortie.txt"
+
+    try:
+        sortie = open(nom_fichier, "w")
+    except IOError:
+        return "erreur : impossible de créer le fichier de sortie. Vérifier les droits d'accès ?."
+
+
+    for ligne in lignes:
+        sortie.write( motif_interligne+"\n"+"|")
+        for i in range(nb_colonnes):
+            sortie.write( " "+ ligne[i] +" "*(taille_colonne[i]-len(ligne[i])) + " |")
+            if (i == nb_colonnes - 1) :
+                sortie.write("\n")
+
+    sortie.write(motif_interligne)
+    sortie.close()
+    return "Le fichier " + nom_fichier + " a été généré."
 
 
 if __name__ == '__main__':
