@@ -1,8 +1,0 @@
-* gestion des autres caractères de séparation (; et | au minimum)
-* centrer le texte dans les colonnes
-* retour à la ligne lorsque le texte d'une cellulle est vraiment trop grand
-
-* gestion des erreurs :
-	* ouverture du fichier (ce n'est pas un csv) -> ??
-
-	
