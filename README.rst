@@ -41,4 +41,4 @@ is transformed into the following rST table::
 
 License
 =======
-Make good use ;)
+THE BEER-WARE LICENSE" (Revision 42)
