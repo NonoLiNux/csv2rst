@@ -18,30 +18,24 @@ import csv
 
 
 def main():
-    ############ lecture du fichier source ##############
+    ############ read the input file ##############
     try:
-        nom_fichier = sys.argv[1]
+        file_name = sys.argv[1]
     except IndexError:
         return "Utilisation : python csv2rst.py fichier.csv fichier.txt"
 
+    lignes = []
+
     try :
-        fichier = open(nom_fichier, "r")
+        with open(file_name, 'r') as f:
+            reader = csv.reader(f)
+            for row in reader:
+                lignes.append(row)
     except IOError:
         return "erreur : le fichier n'existe pas."
 
-    lignes = []
-
-    try:
-        reader = csv.reader(fichier)
-        for row in reader:
-            lignes.append(row)
-    finally:
-        fichier.close()
-
-
-
     ############ analyse des colonnes ##############
-    nb_colonnes = len(lignes[1])
+    nb_colonnes = len(lignes[0])
 
     taille_colonne = []
     try :
@@ -67,22 +61,22 @@ def main():
         nom_fichier = "sortie.txt"
 
     try:
-        sortie = open(nom_fichier, "w")
+        with open(nom_fichier, 'w') as sortie:
+            for ligne in lignes:
+                sortie.write( motif_interligne+"\n"+"|")
+                for i in range(nb_colonnes):
+                    sortie.write( " "+ ligne[i] +" "*(taille_colonne[i]-len(ligne[i])) + " |")
+                    if (i == nb_colonnes - 1) :
+                        sortie.write("\n")
+            sortie.write(motif_interligne)
     except IOError:
         return "erreur : impossible de créer le fichier de sortie. Vérifier les droits d'accès ?."
 
 
-    for ligne in lignes:
-        sortie.write( motif_interligne+"\n"+"|")
-        for i in range(nb_colonnes):
-            sortie.write( " "+ ligne[i] +" "*(taille_colonne[i]-len(ligne[i])) + " |")
-            if (i == nb_colonnes - 1) :
-                sortie.write("\n")
 
-    sortie.write(motif_interligne)
-    sortie.close()
+
     return "Le fichier " + nom_fichier + " a été généré."
 
 
 if __name__ == '__main__':
-    print main()
+    print (main())
