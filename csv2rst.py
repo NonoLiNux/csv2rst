@@ -1,82 +1,80 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #-------------------------------------------------------------------------------
-# Nom du module :        csv2rst
-# But : ce script permet de transformer un csv en un tableau formaté en reStucturedText (donc lisible dans un éditeur de texte).
+# convert csv file into reStucturedText
 #
-# Utilisation : python csv2rst.py fichier.csv fichier.txt
+# Use :
+#       python csv2rst.py data.csv data.txt
+#       ./csv2rst.py data.csv data.txt
 #
-# Auteur:      Noémie Lehuby
 #
 # Created:     03/09/2012
-# Copyright:   (c) Noémie Lehuby <noemie.lehuby@gmail.com> - 2012
-# Licence:     Faites-en bon usage ;)
+#
+# Licence:     "THE BEER-WARE LICENSE" (Revision 42):
+# As long as you retain this notice you can do whatever you want with this stuff.
+# If we meet some day, and you think this stuff is worth it, you can buy me a
+# beer in return
+# Noémie Lehuby
 #-------------------------------------------------------------------------------
 
 import sys
 import csv
 
 
-def main():
+def csv2rst():
     ############ read the input file ##############
     try:
         file_name = sys.argv[1]
     except IndexError:
-        return "Utilisation : python csv2rst.py fichier.csv fichier.txt"
+        return "Use : python csv2rst.py data.csv data.txt"
 
-    lignes = []
+    input_rows = []
 
+    with open(file_name, 'r') as f:
+        reader = csv.reader(f)
+        for row in reader:
+            input_rows.append(row)
+
+    ############ get columns sizes ##############
+    col_nb = len(input_rows[0])
+
+    col_sizes = []
     try :
-        with open(file_name, 'r') as f:
-            reader = csv.reader(f)
-            for row in reader:
-                lignes.append(row)
-    except IOError:
-        return "erreur : le fichier n'existe pas."
-
-    ############ analyse des colonnes ##############
-    nb_colonnes = len(lignes[0])
-
-    taille_colonne = []
-    try :
-        for i in range(nb_colonnes):
-            colonne = []
-            for ligne in lignes:
-                colonne.append ( ligne[i] )
-
-            taille_colonne.append(len(max(colonne, key=len)))
+        for col_index in range(col_nb):
+            column = [ row[col_index] for row in input_rows ]
+            longuest_content_in_column = max(column, key=len)
+            col_sizes.append(len(longuest_content_in_column))
     except:
-        return "erreur : le fichier n'est pas conforme, impossible de le traiter !"
+        raise  Exception("Can't process input csv file !")
 
+    ############ generate output text ##############
+    output_txt = []
 
-    ############ écriture du fichier de sortie ##############
-    motif_interligne ="+"
-    for i in taille_colonne:
-        motif_interligne += "-" * (i+2)
-        motif_interligne+= "+"
+    row_separator_pattern = "+" + "+".join(["-" * (a_col_size + 2) for a_col_size in col_sizes]) + "+"
 
-    try:
-        nom_fichier = sys.argv[2]
-    except IndexError:
-        nom_fichier = "sortie.txt"
+    output_txt.append(row_separator_pattern)
 
-    try:
-        with open(nom_fichier, 'w') as sortie:
-            for ligne in lignes:
-                sortie.write( motif_interligne+"\n"+"|")
-                for i in range(nb_colonnes):
-                    sortie.write( " "+ ligne[i] +" "*(taille_colonne[i]-len(ligne[i])) + " |")
-                    if (i == nb_colonnes - 1) :
-                        sortie.write("\n")
-            sortie.write(motif_interligne)
-    except IOError:
-        return "erreur : impossible de créer le fichier de sortie. Vérifier les droits d'accès ?."
+    for an_input_row in input_rows :
+        output_row = "|"
+        for a_col in an_input_row :
+            nb_spaces_in_col = col_sizes[an_input_row.index(a_col) ] - len(a_col)
+            output_row += " {}{} |".format(a_col, " " * nb_spaces_in_col)
+        output_txt.append(output_row)
+        output_txt.append(row_separator_pattern)
 
+    ############ return output ##############
+    if len(sys.argv) > 2 :
+        #assume we have output file name
+        output_file = sys.argv[2]
+        with open(output_file, 'w') as output:
+            for an_output_row in output_txt :
+                output.write(an_output_row + "\n")
 
-
-
-    return "Le fichier " + nom_fichier + " a été généré."
-
+    else :
+        return(output_txt)
 
 if __name__ == '__main__':
-    print (main())
+    output = csv2rst()
+    if output :
+        for a_line in output:
+            print(a_line)
