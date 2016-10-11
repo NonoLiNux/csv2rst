@@ -26,7 +26,7 @@ def csv2rst():
     try:
         file_name = sys.argv[1]
     except IndexError:
-        return "Use : python csv2rst.py data.csv data.txt"
+        return ["Usage: python csv2rst.py data.csv data.txt"]
 
     input_rows = []
 
