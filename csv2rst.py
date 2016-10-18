@@ -26,7 +26,7 @@ def csv2rst():
     try:
         file_name = sys.argv[1]
     except IndexError:
-        return "Use : python csv2rst.py data.csv data.txt"
+        return ["Usage: python csv2rst.py data.csv data.txt"]
 
     input_rows = []
 
@@ -56,8 +56,10 @@ def csv2rst():
 
     for an_input_row in input_rows :
         output_row = "|"
+        col = -1
         for a_col in an_input_row :
-            nb_spaces_in_col = col_sizes[an_input_row.index(a_col) ] - len(a_col)
+            col = col + 1
+            nb_spaces_in_col = col_sizes[col] - len(a_col)
             output_row += " {}{} |".format(a_col, " " * nb_spaces_in_col)
         output_txt.append(output_row)
         output_txt.append(row_separator_pattern)
